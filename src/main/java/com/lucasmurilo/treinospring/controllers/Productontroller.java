@@ -1,7 +1,7 @@
 package com.lucasmurilo.treinospring.controllers;
 
-import com.lucasmurilo.treinospring.entities.User;
-import com.lucasmurilo.treinospring.services.UserService;
+import com.lucasmurilo.treinospring.entities.Product;
+import com.lucasmurilo.treinospring.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,35 +11,35 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/users")
-public class UserController {
+@RequestMapping(value = "/products")
+public class Productontroller {
 
     @Autowired
-    private UserService service;
+    private ProductService service;
 
     @GetMapping
-    public ResponseEntity<List<User>> findAll(){
-        List<User> list = service.findAll();
+    public ResponseEntity<List<Product>> findAll(){
+        List<Product> list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<User> findById(@PathVariable Integer id){
-        User obj = service.findById(id);
+    public ResponseEntity<Product> findById(@PathVariable Integer id){
+        Product obj = service.findById(id);
         return ResponseEntity.ok().body(obj);
     }
 
     @PostMapping
-    public ResponseEntity<User> insert(@RequestBody User obj){
+    public ResponseEntity<Product> insert(@RequestBody Product obj){
         obj = service.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).body(obj);
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<User> update(@PathVariable Integer id, @RequestBody User obj){
-        User user = service.update(id, obj);
-        return ResponseEntity.ok().body(user);
+    public ResponseEntity<Product> update(@PathVariable Integer id, @RequestBody Product obj){
+        Product product = service.update(id, obj);
+        return ResponseEntity.ok().body(product);
     }
 
     @DeleteMapping(value = "/{id}")
