@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Category implements Serializable {
@@ -12,9 +13,7 @@ public class Category implements Serializable {
     private Integer id;
     private String nome;
 
-    @ManyToMany
-    @JoinTable(name = "products_categories",
-            joinColumns = @JoinColumn(name = "category_id"), inverseJoinColumns = @JoinColumn(name = "products_id"))
+    @ManyToMany(mappedBy = "categories")
     private List<Product> products = new ArrayList<>();
 
     public Category(){
@@ -40,5 +39,22 @@ public class Category implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Category category = (Category) o;
+        return id.equals(category.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

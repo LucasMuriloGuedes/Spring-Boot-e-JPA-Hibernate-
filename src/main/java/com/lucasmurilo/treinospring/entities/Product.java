@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Product implements Serializable {
@@ -15,7 +16,9 @@ public class Product implements Serializable {
     private Double price;
     private String imgUrl;
 
-    @ManyToMany(mappedBy = "products")
+    @ManyToMany
+    @JoinTable(name = "products_categories",
+            joinColumns = @JoinColumn(name = "products_id"), inverseJoinColumns = @JoinColumn(name = "categoty_id"))
     private List<Category> categories = new ArrayList<>();
 
 
@@ -74,5 +77,18 @@ public class Product implements Serializable {
 
     public List<Category> getCategories() {
         return categories;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return id.equals(product.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
